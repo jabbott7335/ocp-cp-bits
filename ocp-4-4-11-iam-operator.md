@@ -111,3 +111,5 @@ Next, edit the `ibm-iam-operator.v3.6.4-6b55d84fd9` clusterrole:
   - update
   - watch
 ```
+
+The changes will take effect automatically in a few minutes and the operator deployment will continue.
