@@ -1,5 +1,7 @@
 ## The OCP 4.4.11 Problem
 
+https://github.ibm.com/IBMPrivateCloud/roadmap/issues/39171
+
 Are you getting pods in "configerror" status in the ibm-common-services project after installing the IBM Common Services operator on 4.4.11?  You also likely are missing pods for IAM `iam-`.  The IBM IAM Operator is likely stuck in a pending state.  To fix this we will fix the cluster role associated to the `ibm-iam-operand-restricted` service account.
 
 Fixing this problem.  First we will need a bit of information from the clusterrolebinding:
