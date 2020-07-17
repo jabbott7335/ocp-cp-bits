@@ -1,44 +1,21 @@
 ## The OCP 4.4.11 Problem
 
-https://github.ibm.com/IBMPrivateCloud/roadmap/issues/39171
+https://github.ibm.com/IBMPrivateCloud/roadmap/issues/39171 eventually points to a troubleshooting section that doesn't exactly work.
 
 Are you getting pods in "configerror" status in the ibm-common-services project after installing the IBM Common Services operator on 4.4.11?  You also likely are missing pods for IAM `iam-`.  The IBM IAM Operator is likely stuck in a pending state.  To fix this we will fix the cluster role associated to the `ibm-iam-operand-restricted` service account.
 
 Fixing this problem.  First we will need a bit of information from the clusterrolebinding:
 
-```oc edit clusterrolebinding```
+- Log in to your OpenShift Container Platform cluster console.
+- Click User **Management > Role Bindings**
+- Select the **Cluster-wide Role Bindings** filter and enter the string ibm-iam-operand-restricted to filter by the subject name.
+- For the role binding, copy the value for the Role Ref column. This value can resemble **ibm-iam-operator.v3.6.4-abc1d**.
 
-Search for the clusterrole that is associated with the serviceaccount ibm-iam-operand-restricted.  You are looking for a section similar to the following:
+Next, edit the `ibm-iam-operator.v3.6.4-abc1d` clusterrole you copied the actual name of in the previous step:
 
-```
-- apiVersion: rbac.authorization.k8s.io/v1
-  kind: ClusterRoleBinding
-  metadata:
-    creationTimestamp: "2020-07-14T22:50:06Z"
-    labels:
-      olm.owner: ibm-iam-operator.v3.6.4
-      olm.owner.kind: ClusterServiceVersion
-      olm.owner.namespace: ibm-common-services
-    name: ibm-iam-operator.v3.6.4-6b55d84fd9-55d6bc8b5d
-    resourceVersion: "34561"
-    selfLink: /apis/rbac.authorization.k8s.io/v1/clusterrolebindings/ibm-iam-operator.v3.6.4-6b55d84fd9-55d6bc8b5d
-    uid: 487e7254-40f4-4898-b131-e22bab211e5e
-  roleRef:
-    apiGroup: rbac.authorization.k8s.io
-    kind: ClusterRole
-    name: ibm-iam-operator.v3.6.4-6b55d84fd9
-  subjects:
-  - kind: ServiceAccount
-    name: ibm-iam-operand-restricted
-```
+```oc edit clusterrole ibm-iam-operator.v3.6.4-abc1d```
 
-I know I am focused on the correction section of code because the `subject` of this `ClusterRoleBinding` of `kind: ServiceAccount` and the `name: ibm-iam-operand-restricted`.  The important bit of information is the `name: ibm-iam-operator.v3.6.4-6b55d84fd9`.  You will need the name of your clusterrole for the next step.
-
-Next, edit the `ibm-iam-operator.v3.6.4-6b55d84fd9` clusterrole:
-
-```oc edit clusterrole ibm-iam-operator.v3.6.4-6b55d84fd9```
-
-**Add** the below `yaml` snippet to the end of the clusterrole definition and save the results to apply them.
+**Add** the below `yaml` snippet **to the end** of the clusterrole definition and save the results to apply them.  If you do this same step in the URL the `yaml` format differs
 
 ```
 - apiGroups:
