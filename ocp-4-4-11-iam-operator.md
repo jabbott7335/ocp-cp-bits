@@ -208,3 +208,4 @@ Go to the very bottom and **append** the below `yaml` snippet **to the end** and
   ```
 The changes will take effect automatically in a few minutes and the operator deployment will continue.
 
+> To understand further what you have done, you can explore the ClusterRoleBindings with the **Role Bindings** tool from the UI.  The changes above could be made from the **Roles** tool, but the above `uyaml` would require reformat.
