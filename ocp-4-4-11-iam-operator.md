@@ -2,7 +2,7 @@
 
 https://www.ibm.com/support/knowledgecenter/SSHKN6/installer/3.x.x/troubleshoot/op_pending.html eventually points to a troubleshooting section that doesn't exactly work.
 
-Are you getting pods in "configerror" status in the ibm-common-services project after installing the IBM Common Services operator on 4.4.11?  You also likely are missing pods for IAM `iam-`.  The IBM IAM Operator is likely stuck in a pending state.  To fix this we will fix the cluster role associated to the `ibm-iam-operand-restricted` service account.
+Are you getting pods in "configerror" status in the ibm-common-services project after installing the IBM Common Services operator on 4.4.x?  You also likely are missing pods for IAM `oc get po -n ibm-common-services | grep iam-`.  The IBM IAM Operator is likely stuck in a pending state and its pod may be missing.  To fix this we will fix the ClusterRoles associated to the `ibm-iam-operand-restricted` and `ibm-iam-operator` service accounts.
 
 To fix this behavior we will alter a pair of ClusterRoles that are bound to a pair of ServiceAccounts.  
 
