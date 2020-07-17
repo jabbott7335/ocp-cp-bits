@@ -208,10 +208,3 @@ Go to the very bottom and **append** the below `yaml` snippet **to the end** and
   ```
 The changes will take effect automatically in a few minutes and the operator deployment will continue.
 
-
-> Alternatively, you can also find the ClusterRoles from the UI
-- Log in to your OpenShift Container Platform cluster console.
-- Click **User Management > Role Bindings**
-- Select the **Cluster-wide Role Bindings** filter and enter the string `ibm-iam-oper`.
-- You will see three ClusterRoleBinding subjects:  `ibm-iam-operator`, `ibm-iam-operand-restricted` and ` ibm-iam-operand-privileged`.  
-- Record the **RoleRef** for both the `ibm-iam-operator` and `ibm-iam-operand-restricted`.  The values will resemble the following:  **ibm-iam-operator.v3.6.4-abc1d**.  These are **ClusterRoles** that you will need to edit.
