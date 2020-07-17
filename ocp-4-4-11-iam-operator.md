@@ -7,7 +7,7 @@ Are you getting pods in "configerror" status in the ibm-common-services project 
 Fixing this problem.  First we will need a bit of information from the clusterrolebinding:
 
 - Log in to your OpenShift Container Platform cluster console.
-- Click User **Management > Role Bindings**
+- Click **User Management > Role Bindings**
 - Select the **Cluster-wide Role Bindings** filter and enter the string ibm-iam-operand-restricted to filter by the subject name.
 - For the role binding, copy the value for the Role Ref column. This value can resemble **ibm-iam-operator.v3.6.4-abc1d**.
 
@@ -15,7 +15,7 @@ Next, edit the `ibm-iam-operator.v3.6.4-abc1d` clusterrole you copied the actual
 
 ```oc edit clusterrole ibm-iam-operator.v3.6.4-abc1d```
 
-**Add** the below `yaml` snippet **to the end** of the clusterrole definition and save the results to apply them.  If you do this same step in the URL the `yaml` format differs
+Go to the very bottom and **append** the below `yaml` snippet **to the end** and save the results to apply them.  If you do this same step in the UI the `yaml` format differs:
 
 ```
 - apiGroups:
