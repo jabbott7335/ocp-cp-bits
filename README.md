@@ -22,3 +22,13 @@ https://www.ibm.com/support/knowledgecenter/SSHKN6/installer/3.x.x/troubleshoot/
 ### Podwatch
 
  `alias podwatch='watch "oc get pods -A|egrep -v \"1/1|2/2|3/3|4/4|5/5|6/6|7/7|Completed\""'`
+
+### Catching My Fork Up
+
+[GitHub doc](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/syncing-a-fork)
+```
+git fetch upstream
+git checkout master
+git merge upstream/master
+git push
+```
