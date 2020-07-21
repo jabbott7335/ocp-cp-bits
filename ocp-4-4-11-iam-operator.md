@@ -4,7 +4,9 @@ https://www.ibm.com/support/knowledgecenter/SSHKN6/installer/3.x.x/troubleshoot/
 
 Are you getting pods in "configerror" status in the ibm-common-services project after installing the IBM Common Services operator on 4.4.x?  You also likely are missing pods for IAM `oc get po -n ibm-common-services | grep iam-`.  The IBM IAM Operator is likely stuck in a pending state and its pod may be missing.  To fix this we will fix the ClusterRoles associated to the `ibm-iam-operand-restricted` and `ibm-iam-operator` service accounts.
 
-To fix this behavior we will alter a pair of ClusterRoles that are bound to a pair of ServiceAccounts.  
+To fix this behavior we will alter a pair of ClusterRoles that are bound to a pair of ServiceAccounts.
+
+** Before running this note the -o wide on the clusterrolebinding get will not work unless you have a recent oc CLI.  If you find this you will want to upgrade your local oc CLI or use the UI to lookup the Cluster Roles under User Management **
 
 First, find the cluster role associated with the `ibm-iam-operand-restricted` ClusterRoleBinding subject:
 
