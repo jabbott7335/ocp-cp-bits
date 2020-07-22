@@ -4,7 +4,7 @@ https://www.ibm.com/support/knowledgecenter/SSHKN6/installer/3.x.x/troubleshoot/
 
 Are you getting pods in `CreateContainerConfigError` status in the ibm-common-services project after installing the IBM Common Services operator on 4.4.x?  You also likely are missing pods for IAM `oc get po -n ibm-common-services | grep iam-`.  The IBM IAM Operator is likely stuck in a pending state and its pod may be missing.  Try this command to verify:
 
-```oc describe csv ibm-iam-operator | grep NotSatisfied -B 5```
+```oc describe csv ibm-iam-operator -n ibm-common-services | grep NotSatisfied -B 5```
 
 If you are experiencing the same issue the results should look like
 
