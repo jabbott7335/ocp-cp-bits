@@ -32,3 +32,44 @@ git checkout master
 git merge upstream/master
 git push
 ```
+
+## Server Side Apply K-Saucer Workaround
+
+Run `oc edit featuregate cluster`
+and configured it with these settings
+
+```
+# Please edit the object below. Lines beginning with a '#' will be ignored,
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+#
+apiVersion: config.openshift.io/v1
+kind: FeatureGate
+metadata:
+  annotations:
+    release.openshift.io/create-only: "true"
+  creationTimestamp: "2020-07-21T14:06:06Z"
+  generation: 3
+  name: cluster
+  resourceVersion: "426117"
+  selfLink: /apis/config.openshift.io/v1/featuregates/cluster
+  uid: e3e9d482-f15d-4145-9858-dd65cb3e6755
+spec:
+  customNoUpgrade:
+    disabled:
+    - ServerSideApply
+    - LegacyNodeRoleBehavior
+    enabled:
+    - APIPriorityAndFairness
+    - RotateKubeletServerCertificate
+    - NodeDisruptionExclusion
+    - ServiceNodeExclusion
+    - SCTPSupport
+  featureSet: CustomNoUpgrade
+```
+  
+The other features `LegacyNodeRoleBehavior, APIPriorityAndFairness, RotateKubeletServerCertificate, NodeDisruptionExclusion, ServiceNodeExclusion, SCTPSupport` in this file are the OOTB feature configurations. Just adding ServerSideApply to this config removed the OOTB features which was not desired.
+
+Once the API server is restarted you. can check the configs with
+
+```oc --namespace=openshift-kube-apiserver rsh kube-apiserver-<xxxxx> cat /etc/kubernetes/static-pod-resources/configmaps/config/config.yaml```
