@@ -1,12 +1,12 @@
-## The OCP 4.4.x IAM Operator Cluster Role Issue
+## The OCP 4.4.x (maybe 4.5) IAM Operator Cluster Role Issue
 
 https://www.ibm.com/support/knowledgecenter/SSHKN6/installer/3.x.x/troubleshoot/op_pending.html eventually points to a troubleshooting section that doesn't exactly work.
 
-Are you getting pods in "configerror" status in the ibm-common-services project after installing the IBM Common Services operator on 4.4.x?  You also likely are missing pods for IAM `oc get po -n ibm-common-services | grep iam-`.  The IBM IAM Operator is likely stuck in a pending state and its pod may be missing.  Try this command to verify:
+Are you getting pods in `CreateContainerConfigError` status in the ibm-common-services project after installing the IBM Common Services operator on 4.4.x?  You also likely are missing pods for IAM `oc get po -n ibm-common-services | grep iam-`.  The IBM IAM Operator is likely stuck in a pending state and its pod may be missing.  Try this command to verify:
 
 ```oc describe csv ibm-iam-operator | grep NotSatisfied -B 5```
 
-If you are experiencing the same issue the results will look like
+If you are experiencing the same issue the results should look like
 
 ```
 oc describe csv ibm-iam-operator | grep NotSatisfied -B 5
