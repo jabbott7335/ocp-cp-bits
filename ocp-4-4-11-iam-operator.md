@@ -2,9 +2,61 @@
 
 https://www.ibm.com/support/knowledgecenter/SSHKN6/installer/3.x.x/troubleshoot/op_pending.html eventually points to a troubleshooting section that doesn't exactly work.
 
-Are you getting pods in "configerror" status in the ibm-common-services project after installing the IBM Common Services operator on 4.4.x?  You also likely are missing pods for IAM `oc get po -n ibm-common-services | grep iam-`.  The IBM IAM Operator is likely stuck in a pending state and its pod may be missing.  To fix this we will fix the ClusterRoles associated to the `ibm-iam-operand-restricted` and `ibm-iam-operator` service accounts.
+Are you getting pods in "configerror" status in the ibm-common-services project after installing the IBM Common Services operator on 4.4.x?  You also likely are missing pods for IAM `oc get po -n ibm-common-services | grep iam-`.  The IBM IAM Operator is likely stuck in a pending state and its pod may be missing.  Try this command to verify:
 
-To fix this behavior we will alter a pair of ClusterRoles that are bound to a pair of ServiceAccounts.
+```oc describe csv ibm-iam-operator | grep NotSatisfied -B 5```
+
+If you are experiencing the same issue the results will look like
+
+```
+oc describe csv ibm-iam-operator | grep NotSatisfied -B 5
+      Status:   Satisfied
+      Version:  v1
+      Group:    rbac.authorization.k8s.io
+      Kind:     PolicyRule
+      Message:  namespaced rule:{"verbs":["get","create"],"apiGroups":["monitoring.coreos.com"],"resources":["servicemonitors"]}
+      Status:   NotSatisfied
+--
+      Version:  v1
+      Group:    rbac.authorization.k8s.io
+      Kind:     PolicyRule
+      Message:  namespaced rule:{"verbs":["update"],"apiGroups":["apps"],"resources":["deployments/finalizers"],"resourceNames":["ibm-iam-operator"]}
+      Status:   NotSatisfied
+--
+      Status:   Satisfied
+      Version:  v1
+      Group:    rbac.authorization.k8s.io
+      Kind:     PolicyRule
+      Message:  namespaced rule:{"verbs":["create","delete","get","list","patch","update","watch"],"apiGroups":["operator.ibm.com"],"resources":["*","policydecisions","oidcclientwatchers","authentications","policycontrollers","paps","securityonboardings"]}
+      Status:   NotSatisfied
+--
+      Version:  v1
+      Group:    rbac.authorization.k8s.io
+      Kind:     PolicyRule
+      Message:  namespaced rule:{"verbs":["create","delete","get","list","patch","update","watch"],"apiGroups":["certmanager.k8s.io"],"resources":["*","certificates"]}
+      Status:   NotSatisfied
+--
+      Version:  v1
+      Group:    rbac.authorization.k8s.io
+      Kind:     PolicyRule
+      Message:  namespaced rule:{"verbs":["create","delete","get","list","patch","update","watch"],"apiGroups":["networking.k8s.io"],"resources":["*","ingresses"]}
+      Status:   NotSatisfied
+--
+      Version:  v1
+      Group:    rbac.authorization.k8s.io
+      Kind:     PolicyRule
+      Message:  namespaced rule:{"verbs":["create","delete","get","list","patch","update","watch"],"apiGroups":["batch"],"resources":["jobs"]}
+      Status:   NotSatisfied
+--
+      Version:  v1
+    Group:
+    Kind:       ServiceAccount
+    Message:    Policy rule not satisfied for service account
+    Name:       ibm-iam-operand-restricted
+    Status:     PresentNotSatisfied
+```
+
+To fix this we will fix the ClusterRoles associated to the `ibm-iam-operand-restricted` and `ibm-iam-operator` service accounts.
 
 ** Before running this note the -o wide on the clusterrolebinding get will not work unless you have a recent oc CLI.  If you find this you will want to upgrade your local oc CLI or use the UI to lookup the Cluster Roles under User Management **
 
