@@ -73,3 +73,7 @@ The other features `LegacyNodeRoleBehavior, APIPriorityAndFairness, RotateKubele
 Once the API server is restarted you. can check the configs with
 
 ```oc --namespace=openshift-kube-apiserver rsh kube-apiserver-<xxxxx> cat /etc/kubernetes/static-pod-resources/configmaps/config/config.yaml```
+
+## Azure, OCP, Common Services Cloud Pak for Integration
+
+The worker nodes had camel case label for the region, and thus the PVC for mongodb could not find a node to run on.  Changed the failure-domain.beta.kubernetes.io/region=SouthAfricaNorth to sourthafricanorth.
