@@ -23,6 +23,10 @@ https://www.ibm.com/support/knowledgecenter/SSHKN6/installer/3.x.x/troubleshoot/
 
  `alias podwatch='watch "oc get pods -A|egrep -v \"1/1|2/2|3/3|4/4|5/5|6/6|7/7|Completed\""'`
 
+## View Subscriptions
+
+`oc get subscription.operators.coreos.com  -n openshift-operators`
+
 ### Catching My Fork Up
 
 [GitHub doc](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/syncing-a-fork)
