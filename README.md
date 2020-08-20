@@ -81,3 +81,18 @@ Once the API server is restarted you. can check the configs with
 ## Azure, OCP, Common Services Cloud Pak for Integration
 
 The worker nodes had camel case label for the region, and thus the PVC for mongodb could not find a node to run on.  Changed the failure-domain.beta.kubernetes.io/region=SouthAfricaNorth to sourthafricanorth.
+
+## Ingress Issue 
+
+It appears the root of all evil is the network policies. If you execute:
+oc get --namespace openshift-ingress-operator ingresscontrollers/default --output jsonpath='{.status.endpointPublishingStrategy.type}'
+and the result is HostNetwork
+Then you have the run
+oc label namespace default 'network.openshift.io/policy-group=ingress'
+ This link explains what is going on
+https://docs.openshift.com/container-platform/4.5/networking/network_policy/about-network-policy.html
+otherwise the dashboards will intermittently not respond depending if your router pods are on the same worker nodes as your UI pods
+
+## OC Python Client
+
+Get it here -> https://github.com/openshift/openshift-client-python
