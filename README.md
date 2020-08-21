@@ -96,3 +96,4 @@ otherwise the dashboards will intermittently not respond depending if your route
 ## OC Python Client
 
 Get it here -> https://github.com/openshift/openshift-client-python
+Install Python on mac `brew install python` and `sudo pip3 install openshift-client`
